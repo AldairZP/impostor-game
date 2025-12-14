@@ -11,8 +11,11 @@ type Player = {
   isImpostor: boolean;
 };
 
+type modalFooter = "create" | "edit";
+
 export const Players = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalFooter, setModalFooter] = useState<modalFooter>("create");
   const [newPlayerState, setNewPlayerState] = useState<Player>({
     id: crypto.randomUUID(),
     name: "",
@@ -33,17 +36,70 @@ export const Players = () => {
     return copy;
   };
 
-  const handleAdd = () => {
-    setIsModalOpen(true);
+  const handleModalFooter = () => {
+    const createFooter = (
+      <Button
+        color="var(--color-blue-primary)"
+        shadowColor="var(--color-blue-secondary)"
+        onClick={() => {
+          handleSave();
+        }}
+      >
+        <span className="px-4">Agregar</span>
+      </Button>
+    );
+
+    const editFooter = (
+      <div className="flex gap-4">
+        <Button
+          color="var(--color-red-primary)"
+          shadowColor="var(--color-red-secondary)"
+          onClick={() => {
+            handleDelete();
+          }}
+        >
+          <span className="px-4">Eliminar</span>
+        </Button>
+
+        <Button
+          color="var(--color-green-primary)"
+          shadowColor="var(--color-green-secondary)"
+          onClick={() => {
+            handleSave();
+          }}
+        >
+          <span className="px-4">Aceptar</span>
+        </Button>
+      </div>
+    );
+    return modalFooter === "create" ? createFooter : editFooter;
   };
 
-  const handleEdit = (player: Player) => {
+  const handleButtonAdd = () => {
+    setModalFooter("create");
+    setIsModalOpen(true);
+    setNewPlayerState(
+      formattedPlayer({ id: crypto.randomUUID(), name: "", isImpostor: false })
+    );
+  };
+
+  const handleButtonEdit = (player: Player) => {
+    setModalFooter("edit");
     setIsModalOpen(true);
     setNewPlayerState(player);
   };
 
-  const handleDeleteAll = () => {
+  const handleButtonDeleteAll = () => {
     setPlayers((prev) => prev.slice(0, 3));
+  };
+
+  const handleDelete = () => {
+    if (players.length > 3) {
+      setPlayers((prev) =>
+        prev.filter((player) => player.id != newPlayerState.id)
+      );
+    }
+    setIsModalOpen(false);
   };
 
   const handleSave = () => {
@@ -64,39 +120,36 @@ export const Players = () => {
     });
 
     setIsModalOpen(false);
-    setNewPlayerState(
-      formattedPlayer({ id: crypto.randomUUID(), name: "", isImpostor: false })
-    );
   };
 
   return (
     <>
-      <div className="flex flex-col w-full h-full justify-start items-center p-8 gap-11">
+      <div className="flex flex-col w-full h-full justify-start items-center gap-11 p-8">
         <div>regresar</div>
-        <Card className="flex-10 flex-col gap-4">
+        <Card className="flex-10 flex-col p-4 gap-2 w-80">
           <Button
-            onClick={() => {
-              handleAdd();
-            }}
             color={"#6a994e"}
             shadowColor={"#386641"}
+            className="w-full"
+            onClick={() => {
+              handleButtonAdd();
+            }}
           >
-            <div className="flex justify-center items-center w-[250px]">
-              <span className="inline-block text-base ">Agregar Jugador</span>
-            </div>
+            Agregar Jugador
           </Button>
-          <div className="flex flex-col w-min overflow-auto items-center gap-2">
+          <div className="flex flex-col w-full overflow-auto items-center gap-2">
             {players.map((player: Player) => (
               <Button
                 key={player.id}
-                onClick={() => {
-                  handleEdit(player);
-                }}
                 color={"var(--color-blue-primary)"}
                 shadowColor={"var(--color-blue-secondary)"}
+                className="w-full"
+                onClick={() => {
+                  handleButtonEdit(player);
+                }}
               >
-                <div className="flex justify-between items-center w-[250px]">
-                  <span className="inline-block text-base ">{player.name}</span>
+                <div className="flex w-full justify-between items-center px-4">
+                  <span className="inline-block text-base">{player.name}</span>
                   <Pencil />
                 </div>
               </Button>
@@ -104,9 +157,10 @@ export const Players = () => {
           </div>
         </Card>
         <Button
-          onClick={handleDeleteAll}
           color={"var(--color-red-primary)"}
           shadowColor={"var(--color-red-secondary)"}
+          className="inline-block w-30"
+          onClick={handleButtonDeleteAll}
         >
           Borrar Todo
         </Button>
@@ -117,17 +171,7 @@ export const Players = () => {
         onClose={() => {
           setIsModalOpen(false);
         }}
-        footer={
-          <Button
-            color="var(--color-blue-primary)"
-            shadowColor="var(--color-blue-secondary)"
-            onClick={() => {
-              handleSave();
-            }}
-          >
-            Agregar
-          </Button>
-        }
+        footer={handleModalFooter()}
       >
         <Input
           name="player"

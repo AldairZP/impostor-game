@@ -10,51 +10,54 @@ export const Principal = () => {
   };
 
   return (
-    <div className="flex flex-col w-full min-h-screen justify-center items-center p-8 gap-11 bg-container">
+    <div className="flex flex-col justify-center items-center-safe w-full min-h-screen gap-11 bg-container">
       <span className="font-semibold text-6xl">Impostor</span>
       <Button
         onClick={handleClick}
         color={"var(--color-red-primary)"}
         shadowColor={"var(--color-red-secondary)"}
+        className="inline-block text-lg w-30"
       >
-        <span className="text-xl">Iniciar</span>
+        Iniciar
       </Button>
 
-      <Card>
-        <div className="flex flex-col w-min h-full gap-2 items-center">
-          <span className="text-xl font-semibold">Configuración</span>
+      <Card className=" flex flex-col w-80 p-4 justify-center items-center gap-2">
+        <span className="text-lg font-semibold">Configuración</span>
 
-          <Button
-            onClick={() => navigate("/players")}
-            color={"var(--color-blue-primary)"}
-            shadowColor={"var(--color-blue-secondary)"}
-          >
-            <span className="inline-block text-base w-[250px]">Jugadores</span>
-          </Button>
+        <Button
+          onClick={() => navigate("/players")}
+          color={"var(--color-blue-primary)"}
+          shadowColor={"var(--color-blue-secondary)"}
+          className="inline-block text-base w-full"
+        >
+          Jugadores
+        </Button>
 
-          <Button
-            onClick={handleClick}
-            color={"var(--color-blue-primary)"}
-            shadowColor={"var(--color-blue-secondary)"}
-          >
-            <span className="inline-block text-base w-[250px]">Impostores</span>
-          </Button>
+        <Button
+          onClick={handleClick}
+          color={"var(--color-blue-primary)"}
+          shadowColor={"var(--color-blue-secondary)"}
+          className="inline-block text-base w-full"
+        >
+          Impostores
+        </Button>
 
-          <Button
-            onClick={handleClick}
-            color={"var(--color-blue-primary)"}
-            shadowColor={"var(--color-blue-secondary)"}
-          >
-            <span className="inline-block text-base w-[250px]">Categorías</span>
-          </Button>
-          <Button
-            onClick={handleClick}
-            color={"var(--color-blue-primary)"}
-            shadowColor={"var(--color-blue-secondary)"}
-          >
-            <span className="inline-block text-base w-[250px]">Tiempo</span>
-          </Button>
-        </div>
+        <Button
+          onClick={handleClick}
+          color={"var(--color-blue-primary)"}
+          shadowColor={"var(--color-blue-secondary)"}
+          className="inline-block text-base w-full"
+        >
+          Categorías
+        </Button>
+        <Button
+          onClick={handleClick}
+          color={"var(--color-blue-primary)"}
+          shadowColor={"var(--color-blue-secondary)"}
+          className="inline-block text-base w-full"
+        >
+          Tiempo
+        </Button>
       </Card>
     </div>
   );
