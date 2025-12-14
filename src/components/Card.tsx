@@ -1,10 +1,19 @@
+import type { ClassValue } from "clsx";
+import { cn } from "../untils/cn";
+
 type Props = {
-  children?: React.ReactNode;
+  className?: ClassValue;
+  children: React.ReactNode;
 };
 
-export const Card = ({ children }: Props) => {
+export const Card = ({ className, children }: Props) => {
   return (
-    <div className="flex w-full min-h-6 bg-white p-6 rounded-2xl shadow-md">
+    <div
+      className={cn(
+        "flex min-w-50 min-h-50 max-h-full bg-white p-6 rounded-2xl shadow-md",
+        className
+      )}
+    >
       {children}
     </div>
   );

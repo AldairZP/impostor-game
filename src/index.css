@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
-
+:root {
+    --color-red-primary: #C1121F;
+    --color-red-secondary: #780000;
+    --color-blue-primary: #669BBC;
+    --color-blue-secondary: #003049;
+}
 
 html,
 body,
 #root {
     height: 100%;
     width: 100%;
+    font-size: 16px;
 }
 
 /* From Uiverse.io by ariba_9087 */
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 100dvh;
     background: linear-gradient(135deg,
             #ffe8f3,
             #d9f3ff);
